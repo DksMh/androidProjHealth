@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class Record implements Serializable {
     private int no;
-    //private String userid;  //아이디
     private String emailId;  //아이디
     private int type;       // 런닝, 자전거
     private String num;     // 거리

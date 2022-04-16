@@ -24,9 +24,8 @@ import com.google.firebase.database.ValueEventListener;
 public class HealthMain extends AppCompatActivity {
     // 유저 정보와 기록 정보
     Userinfo user;
-    Record record;
     // record 어댑터
-
+    Record record;
     // health_main 화면에 나오는 TextView
     TextView user_name; // 이름
     TextView user_gender; // 성별
@@ -47,8 +46,6 @@ public class HealthMain extends AppCompatActivity {
 
 
     // health_main 화면에 나오는 Button 런닝과 기록확인
-    //private LinearLayout mRecordLayout;
-    //private TextView userRunData;
     private Button walkBtn;
     private Button recordBtn;
     //int weightcal;
@@ -118,15 +115,7 @@ public class HealthMain extends AppCompatActivity {
             System.out.println("fireMain_height : " + fireMain_height);
             System.out.println("fireMain_weight : " + fireMain_weight);
         }
-        // run에서 기록 정보가 받아와지지 않은 경우 -> 운동안했을 때.
-//        if(!(record==null)) {
-//            firebase_num = record.getNum();
-//            firebase_date = record.getDate();
-//            firebase_kcal = record.getKcal();
-//            System.out.println("firebase_num : "+firebase_num);
-//            System.out.println("firebase_date : "+firebase_date);
-//            System.out.println("firebase_kcal : "+firebase_kcal);
-//        }
+
         // Run에서 user 정보 다시 받음
         System.out.println("run_intent : "+run_intent); // cmp=com.example.test_dot/.HealthMain (has extras)
         firebase_id2 = run_intent.getStringExtra("throw-id");
@@ -186,7 +175,7 @@ public class HealthMain extends AppCompatActivity {
 
                 user_height.setText(user.getHeight() + " cm"); // user.getHeight() : 160
                 System.out.println("user.getHeight() : " + user.getHeight()); // user.getHeight() : 160
-                height1 = user.getHeight(); // 참조하여 생성한 객체 user_height 으로 값을 읽어 들여와 String 형태의 변수 height1에 저장한다
+                height1 = user.getHeight();
                 double user_Hcm = Double.parseDouble(height1);
                 // cm를 m로 바꾸기
                 user_Hm = user_Hcm / 100;
@@ -219,7 +208,7 @@ public class HealthMain extends AppCompatActivity {
             user_gender.setText(firebase_gender);
 
             user_height.setText(firebase_height+" cm");
-            firebase_height1 = firebase_height; // 참조하여 생성한 객체 user_height 으로 값을 읽어 들여와 String 형태의 변수 height1에 저장한다
+            firebase_height1 = firebase_height;
             double user_Hcm = Double.parseDouble(firebase_height1);
             // cm를 m로 바꾸기
             run_user_Hm = user_Hcm/100;
@@ -228,7 +217,7 @@ public class HealthMain extends AppCompatActivity {
             fire_usingRunweight = firebase_weight;
             user_weight.setText(firebase_weight+" kg");
 
-            System.out.println("fire_usingRunweight"+fire_usingRunweight); // null 값임
+            System.out.println("fire_usingRunweight"+fire_usingRunweight);
             System.out.println("firebase_height1"+firebase_height1); // -> 160 잘뜸
             bmical = Double.parseDouble(fire_usingRunweight) / ((Double.parseDouble(firebase_height1) / 100) * (Double.parseDouble(firebase_height1) / 100));
             //String bmiresult;
@@ -245,83 +234,7 @@ public class HealthMain extends AppCompatActivity {
             user_bmi.setText(BMI + " ( " + bmiresult + " )");
 
         }
-//
-//        // 이름
-//        user_name = (TextView) findViewById(R.id.user_name);
-//        if ((firebase_id2==null)&&(firebase_name==null)&&(firebase_age==null)&&(firebase_gender==null)&&(firebase_height==null)&&(firebase_weight==null)) {
-//            if(!((user.getEmailId()==null)&& (user.getName()==null)&&(user.getAge()==null)&&(user.getGender()==null)&&(user.getHeight()==null)&&(user.getWeight()==null))) {
-//                user_name.setText(user.getName() + " 님의 정보");
-//                System.out.println("user.getName() : " + user.getName()); // user.getName() : 홍길자
-//            }
-//        } else {
-//            user_name.setText(firebase_name+"님의 정보");
-//        }
-//
-//
-//        // 나이
-//        user_age = (TextView) findViewById(R.id.user_age);
-//        if ((firebase_id2==null)&&(firebase_name==null)&&(firebase_age==null)&&(firebase_gender==null)&&(firebase_height==null)&&(firebase_weight==null)) {
-//            if(!((user.getEmailId()==null)&& (user.getName()==null)&&(user.getAge()==null)&&(user.getGender()==null)&&(user.getHeight()==null)&&(user.getWeight()==null))) {
-//                user_age.setText(user.getAge() + " 세");
-//                System.out.println("user.getAge() : " + user.getAge()); // user.getAge() : 26
-//            }
-//        } else {
-//            user_age.setText(firebase_age+" 세");
-//        }
-//
-//        // 성별
-//        user_gender = (TextView) findViewById(R.id.user_gender);
-//        if ((firebase_id2==null)&&(firebase_name==null)&&(firebase_age==null)&&(firebase_gender==null)&&(firebase_height==null)&&(firebase_weight==null)) {
-//            if(!((user.getEmailId()==null)&& (user.getName()==null)&&(user.getAge()==null)&&(user.getGender()==null)&&(user.getHeight()==null)&&(user.getWeight()==null))) {
-//                user_gender.setText(user.getGender());
-//                System.out.println("user.getGender() : " + user.getGender()); // user.getGender() : 여성
-//            }
-//        } else {
-//            user_gender.setText(firebase_gender);
-//        }
-//
-//        // 키
-//        user_height = (TextView) findViewById(R.id.user_height);
-//        if ((firebase_id2==null)&&(firebase_name==null)&&(firebase_age==null)&&(firebase_gender==null)&&(firebase_height==null)&&(firebase_weight==null)) {
-//            if(!((user.getEmailId()==null)&& (user.getName()==null)&&(user.getAge()==null)&&(user.getGender()==null)&&(user.getHeight()==null)&&(user.getWeight()==null))) {
-//                user_height.setText(user.getHeight() + " cm"); // user.getHeight() : 160
-//                System.out.println("user.getHeight() : " + user.getHeight()); // user.getHeight() : 160
-//                height1 = user.getHeight(); // 참조하여 생성한 객체 user_height 으로 값을 읽어 들여와 String 형태의 변수 height1에 저장한다
-//                double user_Hcm = Double.parseDouble(height1);
-//                // cm를 m로 바꾸기
-//                user_Hm = user_Hcm / 100;
-//                System.out.println("user_Hm : " + user_Hm); // user_Hm : 1.6
-//            }
-//        } else {
-//            user_height.setText(firebase_height+" cm");
-//            firebase_height1 = firebase_height; // 참조하여 생성한 객체 user_height 으로 값을 읽어 들여와 String 형태의 변수 height1에 저장한다
-//            double user_Hcm = Double.parseDouble(firebase_height1);
-//            // cm를 m로 바꾸기
-//            run_user_Hm = user_Hcm/100;
-//            System.out.println("firebase_height_user_Hm : "+run_user_Hm);
-//        }
-//
-//
-//
-//        // 몸무게
-//        user_weight = (TextView) findViewById(R.id.user_weight);
-//        if ((firebase_id2==null)&&(firebase_name==null)&&(firebase_age==null)&&(firebase_gender==null)&&(firebase_height==null)&&(firebase_weight==null)) {
-//            if(!((user.getEmailId()==null)&& (user.getName()==null)&&(user.getAge()==null)&&(user.getGender()==null)&&(user.getHeight()==null)&&(user.getWeight()==null))) {
-//                usingRunweight = user.getWeight();
-//                user_weight.setText(usingRunweight + " kg");
-//                System.out.println("user.getWeight() : " + user.getWeight()); // user.getWeight() : 50
-//            }
-//        } else {
-//            fire_usingRunweight = firebase_weight;
-//            user_weight.setText(firebase_weight+" kg");
-//        }
 
-        //표준몸무게
-        // 체중 대비 백분율 (PIBW, Percent of Ideal Body Weight) : 체질량지수를 이용
-        // 여자 : 신장(m)×신장(m)×21
-        // 남자 : 신장(m)×신장(m)×22
-        // 표준 체중
-        //avg_weight = (TextView) findViewById(R.id.avg_weight);
         if (firebase_gender==null) {
             if(user.getGender().equals("여성")){ // -> 여성
                 weightcal = user_Hm*user_Hm*21;

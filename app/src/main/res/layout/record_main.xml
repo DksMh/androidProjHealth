@@ -9,7 +9,7 @@ android:layout_height="match_parent"
 <TextView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="기록 확인"
+    android:text="운동 기록 확인"
     android:textSize="30dp"
     android:layout_margin="20dp"
     android:textColor="#085C9F"
@@ -22,6 +22,5 @@ android:layout_height="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="70dp"
     android:gravity="center_vertical" />
-    <!--tools:listitem="@layout/records_layout"-->  <!-- records_layout.xml 가지고 와서 보여줌 -->
 
 </FrameLayout>

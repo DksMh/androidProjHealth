@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-
+        // 엑티비티메인.xml에 데어터 보여주기
         rootRef.child("UserAcount").child("1").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

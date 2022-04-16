@@ -32,24 +32,9 @@ import java.util.ArrayList;
 import java.util.Queue;
 
 public class RecordCheck extends AppCompatActivity {
-    LinearLayout mRecordLayout;
-    // 파이어베이스 실시간 db 관리 객체 얻어오기
-    //FirebaseDatabase database = FirebaseDatabase.getInstance();
-    // 저장시킬 노드 참조 객체 가져오기
-    //DatabaseReference rootRef = database.getReference("DB"); // () 안에 아무 것도 안쓰면 최상위 노드
     DatabaseReference rootRef;
-    Intent run_intent;
-    Intent goToRecord;
     ListView userRunData;
 
-    LocalDate date = LocalDate.now();
-    // 파이어베이스에 저장된 내용 가져오기
-    private String firebase_id;
-    private String firebase_rundate;
-    private String firebase_runnum;
-    private String firebase_runkcal;
-    //
-    //
     ArrayList<String> midList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,42 +44,12 @@ public class RecordCheck extends AppCompatActivity {
         // listview
         userRunData = (ListView) findViewById(R.id.listview);
         // initializing our array list
-        //final ArrayList<String> midList = new ArrayList<String>();
         midList = new ArrayList<String>();
 
         // calling a method to get data from
         // Firebase and set data to list view
         initializeListView();
-
-
-
     }
-//        Query myQ = rootRef.child("Record").orderByChild("type").equalTo(1);
-//        myQ.addValueEventListener(new ValueEventListener() {
-//              @Override
-//              public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                  StringBuffer buffer = new StringBuffer();
-//                  for (DataSnapshot ds : snapshot.getChildren()) {
-//                      midList.clear();
-//
-//                      Record record = ds.getValue(Record.class);
-//                      String date = record.getDate();
-//                      String num = record.getNum();
-//                      String kal = record.getKcal();
-//
-//                      buffer.append(date + " , " + num + " , "+ kal + "\n");
-//
-//                      midList.add(buffer.toString());
-//                  }
-//                  userRunData.setAdapter(adapter);
-//                  System.out.println(buffer);
-//              }
-//
-//              @Override
-//              public void onCancelled(@NonNull DatabaseError error) {
-//
-//              }
-//        });
 
     private void initializeListView() {
         // creating a new array adapter for our list view

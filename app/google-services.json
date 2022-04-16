@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "838803373009",
+    "project_id": "healthtest-39930",
+    "storage_bucket": "healthtest-39930.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:838803373009:android:c21f1c625c71978d597ef0",
+        "android_client_info": {
+          "package_name": "com.example.test_dot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "838803373009-e2ttttt4hodi0qbrcqu8ja484qs6fpnd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.test_dot",
+            "certificate_hash": "d1efdfae6dff323ac8c939a4c4a71a034e7b3915"
+          }
+        },
+        {
+          "client_id": "838803373009-18n6rh8l4o7rojpa3860jrdj0tklcs5h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjKw5OXW-FR4gwm9Edvk6IlR00vo3ogcY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "838803373009-18n6rh8l4o7rojpa3860jrdj0tklcs5h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,3 @@
-# androidProjHealth
 # Second_Project
 - 안드로이드 프로젝트
 - 수료과정 두번째 프로젝트입니다.

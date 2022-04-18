@@ -57,6 +57,13 @@ public class RunBicycle extends AppCompatActivity implements OnMapReadyCallback 
     private String firebase_gender;
     private String firebase_height;
     private String firebase_weight;
+    
+    // 버튼 가져오는지 확인
+    int walkBtn;
+    int bicycleBtn;
+    int whatHealthMainBtn;
+    int HealthMainBtn;
+    int select;
     // Record
     Record record;
     Intent run_intent;
@@ -136,6 +143,11 @@ public class RunBicycle extends AppCompatActivity implements OnMapReadyCallback 
         System.out.println("firebase_height : "+firebase_height);
         System.out.println("firebase_width : "+firebase_weight);
 
+        // HealthMain에서 버튼 제대로 들어왔는지 확인
+        walkBtn  = hm_intent.getIntExtra("choice", 1);
+        System.out.println("walkBtn : "+walkBtn); // 1
+        System.out.println("bicycleBtn : "+bicycleBtn); //2
+
         // 현재위치 확인하기
         if (checkLocationServicesStatus()) {checkRunTimePermission();}
         else { showDialogForLocationServiceSetting();}
@@ -160,9 +172,9 @@ public class RunBicycle extends AppCompatActivity implements OnMapReadyCallback 
         // 위도, 경도 보여주기
         //tv1 = (TextView) findViewById(R.id.tv1);
 
+
         // 시작버튼 클릭
         start.setOnClickListener(new OnSingleClickListener() {
-
             @Override
             public void onSingleClick(View v) {
                 // startCount가 1이면 멈추기 stop버튼에 startCount를 넣어주었다.
@@ -235,7 +247,16 @@ public class RunBicycle extends AppCompatActivity implements OnMapReadyCallback 
                 System.out.println("endTime : "+endTime);
                 isThread = false;
                 gMap.clear();
-                
+
+                System.out.println(whatHealthMainBtn + "여기 있어용오오오오옹");
+                System.out.println(HealthMainBtn + "여기 있어용오오오오옹");
+
+                //whatHealthMainBtn = 2;
+                if(whatHealthMainBtn ==walkBtn){
+                    System.out.println("whatHealthMainBtn"+whatHealthMainBtn); // 101
+                }else{
+                    System.out.println("whatHealthMainBtn"+whatHealthMainBtn); // 101
+                }
                 firstx = lati;
                 firsty = longi;
                 // 선 그리기
@@ -248,7 +269,6 @@ public class RunBicycle extends AppCompatActivity implements OnMapReadyCallback 
                 startCount = 1;
 
                 // 대화상자
-                //String getDistance;
                 AlertDialog.Builder dlg = new AlertDialog.Builder(RunBicycle.this);
                 dlg.setTitle("걸은 거리와 소모한 칼로리는?");
                 dlg.setMessage("걸은 거리는 "+ getDistance(firstx, firsty, lastx, lasty) + "m 이고," + "\n" + "소모한 칼로리는 " + String.format("%.2f", kcal(endTime, startTime)) + "Kcal 입니다.");
@@ -260,12 +280,12 @@ public class RunBicycle extends AppCompatActivity implements OnMapReadyCallback 
                         // 여기에서 확인버튼 누르고 거리와 날짜 저장되게 만들기
                         String emailId = firebase_id2;  // -> user.getEmailId();
                         System.out.println("emailId : " + emailId); // user01@naver.com 여기까지는 잘들어옵니다.
-                         //record 하나 만들어주는 코드 그래야 Sequence가 하나씩 늘어가면서 누적을 보여줄 수 있다.
-//                        long seq = 1;
-//                        DatabaseReference ref = rootRef.child("Record").child(seq+"");
-//                        Record record = new Record((int)seq, firebase_id2, 1, num, String.valueOf(date), String.format("%.2f", kcal(endTime, startTime)));
-//                        ref.setValue(record);
-//                        rootRef.child("Record").child("Sequence").setValue(seq +1);
+                        //record 하나 만들어주는 코드 그래야 Sequence가 하나씩 늘어가면서 누적을 보여줄 수 있다.
+                        // long seq = 1;
+                        // DatabaseReference ref = rootRef.child("Record").child(seq+"");
+                        // Record record = new Record((int)seq, firebase_id2, 1, num, String.valueOf(date), String.format("%.2f", kcal(endTime, startTime)));
+                        // ref.setValue(record);
+                        // rootRef.child("Record").child("Sequence").setValue(seq +1);
                         rootRef.child("Record").child("Sequence").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() { // rootRef.child("Record").child("Sequence").get() -> task
                             @Override
                             public void onComplete(@NonNull Task<DataSnapshot> task) { // task 는 record 안에 있는 거
@@ -275,10 +295,22 @@ public class RunBicycle extends AppCompatActivity implements OnMapReadyCallback 
                                     long seq = (Long)task.getResult().getValue();
                                     System.out.println("(Long)task.getResult().getValue()~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"+(long)seq);
                                     //Record record = new Record((int)seq, emailId, 1, num, String.valueOf(date), String.format("%.2f", kcal(endTime, startTime)));
-                                    record = new Record((int)seq, firebase_id2, 1, num, String.valueOf(date), String.format("%.2f", kcal(endTime, startTime)));
-                                    rootRef.child("Record").child(seq+"").setValue(record);
-                                    rootRef.child("Record").child("Sequence").setValue(seq +1);
-                                    System.out.println("record emailId : "+record.getEmailId());
+                                    if(walkBtn == 1){
+                                        System.out.println("걷기 버튼을 통하여 들어왔습니다.");
+                                        record = new Record((int)seq, firebase_id2, 1, num, String.valueOf(date), String.format("%.2f", kcal(endTime, startTime)));
+                                        rootRef.child("Record").child(seq+"").setValue(record);
+                                        rootRef.child("Record").child("Sequence").setValue(seq +1);
+                                    System.out.println("whatHealthMainBtn"+whatHealthMainBtn);
+                                    }else{
+                                        System.out.println("자전거 버튼을 통하여 들어왔습니다.");
+                                        record = new Record((int)seq, firebase_id2, 2, num, String.valueOf(date), String.format("%.2f", kcal(endTime, startTime)));
+                                        rootRef.child("Record").child(seq+"").setValue(record);
+                                        rootRef.child("Record").child("Sequence").setValue(seq +1);
+                                    }
+                                    //record = new Record((int)seq, firebase_id2, 1, num, String.valueOf(date), String.format("%.2f", kcal(endTime, startTime)));
+                                    //rootRef.child("Record").child(seq+"").setValue(record);
+                                    //rootRef.child("Record").child("Sequence").setValue(seq +1);
+                                    //System.out.println("record emailId : "+record.getEmailId());
                                 }
                             }
                         });
@@ -288,7 +320,6 @@ public class RunBicycle extends AppCompatActivity implements OnMapReadyCallback 
                         // -> 확인을 누르면 기록을 바로 볼 수 있도록 만듬
                         run_intent = new Intent(RunBicycle.this, HealthMain.class);
                         // Record 객체로 전송
-                        //run_intent.putExtra("put-record",record);
                         // 유저 정보 다시 던지기
                         run_intent.putExtra("throw-id",firebase_id2);
                         run_intent.putExtra("throw-name",firebase_name);
@@ -300,32 +331,38 @@ public class RunBicycle extends AppCompatActivity implements OnMapReadyCallback 
                         run_intent.putExtra("throw-distance",num);
                         run_intent.putExtra("throw-kcal",String.format("%.2f", kcal(endTime, startTime)));
                         startActivity(run_intent);
-                        finish();
+                        //finish();
                     }
                 });
                 dlg.show();
             }
-        });
 
+        }); // end of stop (걷기 버튼)
+    } // end of oncreate
 
-    }
     // 칼로리 구하기
     public double kcal(long endTime, long startTime){
         // 걷기는 3.5 mets 이다.
-        double runmets;
+        double runmets = 0;
         // 3.5mets = 12.25ml/kg/min;
         long centerTime = pasueStart/1000;
         long whatTime = (endTime - startTime)/1000;
         System.out.println("centerTime : "+centerTime);
         System.out.println("whatTime : "+whatTime );
         // 정보 끌고 오기
-        //Intent intent = getIntent();
         // 걷기 칼로리 계산하기 ->> firebase에 있는 유저 몸무게 가져와서 계산
-        firebase_weight = hm_intent.getStringExtra("put-weight"); // -> null 발생함
+        firebase_weight = hm_intent.getStringExtra("put-weight");
         System.out.println("firebase_weight : "+firebase_weight);
-        double userWeight = Double.parseDouble(firebase_weight); // -> null
+        double userWeight = Double.parseDouble(firebase_weight);
         //일반적인 걷기 => 3.5mets = 12.25ml/kg/min;
-        runmets = 12.25 * userWeight * (centerTime+whatTime); // 4초면 2450.0
+        // 자전거 => 4.0 = 14ml/kg/min;
+        if(walkBtn == 1){
+            System.out.println("걷기 칼로리 계산");
+            runmets = 12.25 * userWeight * (centerTime+whatTime);
+        }else{
+            System.out.println("자전거 칼로리 계산");
+            runmets = 14 * userWeight * (centerTime+whatTime);
+        }
         double onekcal = runmets * 0.005; // 1칼로리는 12.25
         double totalkcal = onekcal * (centerTime+whatTime); // 4초뛰면 49 칼로리
         System.out.println("runmets : "+runmets);

@@ -2,7 +2,9 @@ package com.example.test_dot;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +22,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Random;
 
 public class HealthMain extends AppCompatActivity {
     // 유저 정보와 기록 정보
@@ -45,9 +49,10 @@ public class HealthMain extends AppCompatActivity {
     Intent goToRecord;
 
 
-    // health_main 화면에 나오는 Button 런닝과 기록확인
-    private Button walkBtn;
+    // health_main 화면에 나오는 Button 런닝과 자전거와 기록확인
+    //private Button walkBtn;
     private Button recordBtn;
+    //private Button bicycleBtn;
     //int weightcal;
 
     // 걷기에서도 사용되는 몸무게(칼로리 계산을 위해서 몸무게 정보가 넘어가야한다)
@@ -254,21 +259,72 @@ public class HealthMain extends AppCompatActivity {
         avg_weight.setText(avgweightcal);
 
         // 걷기
-        walkBtn = (Button) findViewById(R.id.walk);
+        Button walkBtn = (Button) findViewById(R.id.walk);
         walkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // HealthMain에서 걷기 페이지로 정보를 보낸다.
                 hm_intent = new Intent(HealthMain.this, RunBicycle.class);
-                // main으로 돌아올 떄 다 지워지므로 user정보를 다 넘긴다.
-                hm_intent.putExtra("put-id",user.getEmailId()); // firebase_id = user.getEmailId();
-                hm_intent.putExtra("put-name",user.getName());
-                hm_intent.putExtra("put-age",user.getAge());
-                hm_intent.putExtra("put-gender",user.getGender());
-                hm_intent.putExtra("put-height",user.getHeight());
-                hm_intent.putExtra("put-weight",usingRunweight); // usingRunweight = user.getWeight()
-                startActivity(hm_intent);
-                finish();
+                if ((firebase_id2==null)&&(firebase_name==null)&&(firebase_age==null)&&(firebase_gender==null)&&(firebase_height==null)&&(firebase_weight==null)) {
+                    if(!((fireMain_id==null)&& (fireMain_name==null)&&(fireMain_age==null)&&(fireMain_gender==null)&&(fireMain_height==null)&&(fireMain_weight==null))) {
+                        // main으로 돌아올 떄 다 지워지므로 user정보를 다 넘긴다.
+                        hm_intent.putExtra("put-id", user.getEmailId()); // firebase_id = user.getEmailId();
+                        hm_intent.putExtra("put-name", user.getName());
+                        hm_intent.putExtra("put-age", user.getAge());
+                        hm_intent.putExtra("put-gender", user.getGender());
+                        hm_intent.putExtra("put-height", user.getHeight());
+                        hm_intent.putExtra("put-weight", usingRunweight); // usingRunweight = user.getWeight()
+                        hm_intent.putExtra("choice", (int)1);
+                        //hm_intent.putExtra("whatHealthMainBtn", 1);
+                        startActivity(hm_intent);
+                        finish();
+                    }
+                }else{ // 걷기 갔다가 다시 걷기도 돌아왔을떄
+                    hm_intent.putExtra("put-id", firebase_id2); // firebase_id = user.getEmailId();
+                    hm_intent.putExtra("put-name", firebase_name);
+                    hm_intent.putExtra("put-age", firebase_age);
+                    hm_intent.putExtra("put-gender", firebase_gender);
+                    hm_intent.putExtra("put-height", firebase_height);
+                    hm_intent.putExtra("put-weight", firebase_weight); // usingRunweight = user.getWeight()
+                    hm_intent.putExtra("choice", (int)1);
+                    startActivity(hm_intent);
+                    finish();
+                }
+            }
+        });
+
+        Button bicycleBtn = (Button) findViewById(R.id.bicycle);
+        bicycleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // HealthMain에서 걷기 페이지로 정보를 보낸다.
+                hm_intent = new Intent(HealthMain.this, RunBicycle.class);
+                if ((firebase_id2 == null) && (firebase_name == null) && (firebase_age == null) && (firebase_gender == null) && (firebase_height == null) && (firebase_weight == null)) {
+                    if (!((fireMain_id == null) && (fireMain_name == null) && (fireMain_age == null) && (fireMain_gender == null) && (fireMain_height == null) && (fireMain_weight == null))) {
+                        // main으로 돌아올 떄 다 지워지므로 user정보를 다 넘긴다.
+                        hm_intent.putExtra("put-id", user.getEmailId()); // firebase_id = user.getEmailId();
+                        hm_intent.putExtra("put-name", user.getName());
+                        hm_intent.putExtra("put-age", user.getAge());
+                        hm_intent.putExtra("put-gender", user.getGender());
+                        hm_intent.putExtra("put-height", user.getHeight());
+                        hm_intent.putExtra("put-weight", usingRunweight); // usingRunweight = user.getWeight()
+                        hm_intent.putExtra("choice", (int) 2);
+                        //hm_intent.putExtra("whatHealthMainBtn2", 2);
+                        startActivity(hm_intent);
+                        finish();
+                    }
+
+                } else { // 자전거 갔다가 다시 걷기도 돌아왔을떄
+                    hm_intent.putExtra("put-id", firebase_id2); // firebase_id = user.getEmailId();
+                    hm_intent.putExtra("put-name", firebase_name);
+                    hm_intent.putExtra("put-age", firebase_age);
+                    hm_intent.putExtra("put-gender", firebase_gender);
+                    hm_intent.putExtra("put-height", firebase_height);
+                    hm_intent.putExtra("put-weight", firebase_weight); // usingRunweight = user.getWeight()
+                    hm_intent.putExtra("choice", (int) 2);
+                    startActivity(hm_intent);
+                    finish();
+                }
             }
         });
 
@@ -288,11 +344,13 @@ public class HealthMain extends AppCompatActivity {
                     goToRecord.putExtra("put-date", firebase_date);
                     goToRecord.putExtra("put-dis", firebase_distance);
                     goToRecord.putExtra("put-kcal", firebase_kcal);
+
                 }
                 startActivity(goToRecord);
             }
         });
 
     }
+
 }
 

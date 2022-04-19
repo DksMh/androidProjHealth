@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,8 @@ public class RecordCheck extends AppCompatActivity {
     ListView userRunData;
 
     ArrayList<String> midList;
+    final String items[] = {"걷기","자전거"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,30 +52,26 @@ public class RecordCheck extends AppCompatActivity {
         // initializing our array list
         midList = new ArrayList<String>();
 
-        // 대화상자
-        AlertDialog.Builder dlg = new AlertDialog.Builder(RecordCheck.this);
-        dlg.setTitle("어떤 기록을 보고 싶으신가요?");
-        dlg.setMessage("버튼 클릭시, 해당 기록을 확인할 수 있습니다.");
-
-        dlg.setPositiveButton("걷기", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                // calling a method to get data from
-                // Firebase and set data to list view
-                initializeListView();
-                // 토스트
-                Toast.makeText(RecordCheck.this, "걷기 운동을 확인하시겠습니다.", Toast.LENGTH_SHORT).show();
+        AlertDialog.Builder mmBuilder = new AlertDialog.Builder(this);
+        mmBuilder.setTitle("원하시는 기록을 선택하세요");
+        int mmSelectedNum = 0;
+        mmBuilder.setSingleChoiceItems(items, mmSelectedNum, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                // TODO Auto-generated method stub
+                if(items[i] == items[0] ){
+                    initializeListView();
+                    System.out.println("걷기를 선택했습니다.");
+                }else{
+                    initializeListView2();
+                    System.out.println("자전거를 선택했습니다.");
+                }
+                Toast.makeText(RecordCheck.this, items[i]+"를 눌렀습니다.", Toast.LENGTH_SHORT).show();
+                dialog.dismiss(); // 누르면 바로 닫히는 형태
             }
-        });
-        dlg.setNegativeButton("자전거", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                initializeListView2();
-                // 토스트
-                Toast.makeText(RecordCheck.this, "자전거 운동을 확인하시겠습니다.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        dlg.show();
-
+        }).setCancelable(false); // 밖에 창 눌러지 안꺼지게
+        mmBuilder.create();
+        mmBuilder.show();
 
     }
 
